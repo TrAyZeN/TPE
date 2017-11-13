@@ -66,7 +66,7 @@ while True:
     ret, thresh = cv2.threshold(bmask, 127, 255, 0)
     contours, _ = cv2.findContours(thresh, 1, 2)
 
-    if len(contours) > 0:       # Prevent from error
+    if len(contours) > 0:       # Prevent from error when there is no contour
         cnt = contours[-1]
         x,y,w,h = cv2.boundingRect(cnt)  #IndexError: list index out of range
         if w > 40 and h > 40:
