@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 import time
 import math
+import serial
 
 # Initialize variables
 frameNb = 0
@@ -20,8 +21,15 @@ yCenterPrev = 0
 zPrev = 0
 focalLength = 731.77        # focal length of my camera in pixel
 knownWidth = 0.125          # my object width in meter
-vMax = 10                   # maximum speed authorized
+vMax = 2                    # maximum speed authorized
+vIndic = ""
+tIndic = 0
 cap = cv2.VideoCapture(0)
+
+s = serial.Serial(port='COM4', baudrate=115200)
+print "Demarrage..."
+time.sleep(2)
+s.write("Pret...")
 
 def nothing(x):
     pass
@@ -71,7 +79,7 @@ while True:
         fpsM = fps
 
     # Blur the image
-    blur = cv2.GaussianBlur(frame, (5,5),0)
+    blur = cv2.GaussianBlur(frame, (5,5), 0)
 
     # Convert BGR to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -129,9 +137,21 @@ while True:
             print "{0} km/h".format(vKm)
 
             if vKm > vMax:
-                print "Slow down"
+                if vIndic != "Ralentissez":
+                    vIndic = "Ralentissez"
+                    print vIndic
+                    s.write("  " + vIndic)
+                    tIndic = time.time() + 2
+            elif vKm > 0.5:
+                if vIndic != "Bonne vitesse":
+                    vIndic = "Bonne vitesse"
+                    print vIndic
+                    s.write(" " + vIndic)
+                    tIndic = time.time() + 2
             else:
-                print "Keep your speed"
+                vIndic = False
+
+
 
     fpsStr = str(round(fpsM, 2)) + " fps"
     cv2.putText(frame, fpsStr, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 2)
@@ -160,6 +180,8 @@ while True:
 
     elif k == ord('r'):     # Shortcut to reset trackbars
         setTb(0, 179, 0, 255, 0, 255)
+    elif k == ord('t'):
+        s.write("erase")
 
 cap.release()
 cv2.destroyAllWindows()
