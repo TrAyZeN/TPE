@@ -191,8 +191,6 @@ class RootWidget(Widget):
         labNumVl = Label(text=str(int(sliderVl.value)), pos=(655, 425), font_name='calibri', font_size=20)
         labNumVh = Label(text=str(int(sliderVh.value)), pos=(655, 365), font_name='calibri', font_size=20)
 
-        logo = oxtonLogo(size=(400, 225), pos=(624, 0))
-
         self.add_widget(butFrame)
         self.add_widget(labFrame)
         self.add_widget(butEdge)
@@ -220,7 +218,6 @@ class RootWidget(Widget):
         self.add_widget(labNumSh)
         self.add_widget(labNumVl)
         self.add_widget(labNumVh)
-        self.add_widget(logo)
         self.add_widget(butCnt)
         self.add_widget(butCntSkin)
         self.add_widget(labCnt)
