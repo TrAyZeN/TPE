@@ -244,7 +244,7 @@ class buttonSkin(Image):
         self.texture = image_texture
 
     def select(self, **kwargs):
-        img = cv2.imread("../resources/buttonSkinSelected.png")
+        img = cv2.imread("resources/buttonSkinSelected.png")
 
         buf1 = cv2.flip(img, 0)
         buf = buf1.tostring()
@@ -254,7 +254,7 @@ class buttonSkin(Image):
         self.texture = image_texture
 
     def unselect(self, **kwargs):
-        img = cv2.imread("../resources/buttonSkin.png")
+        img = cv2.imread("resources/buttonSkin.png")
 
         buf1 = cv2.flip(img, 0)
         buf = buf1.tostring()
